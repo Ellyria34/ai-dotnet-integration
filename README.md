@@ -1,6 +1,6 @@
 # AI .NET Integration
 
-This repository documents a hands-on learning journey focused on integrating Artificial Intelligence into .NET applications using C#.
+This repository documents outlines a practical learning path focused on integrating artificial intelligence into .NET applications using C#.
 
 The objective is to build a strong, practical understanding of how AI can be integrated into real-world software systems, with an emphasis on clean architecture, maintainability, and professional development practices.
 
