@@ -2,7 +2,9 @@
 
 ## Rôle de `docs/`
 
-Ce dossier contient toute la documentation du projet.
+Ce dossier contient toute la documentation du projet et les supports de transmission (PDF visuels pour chacune des notions importantes).
+
+Ce dossier ne contient aucun code exécutable.
 
 Il sert à :
 - Centraliser les notes de réflexion et d’apprentissage
@@ -10,7 +12,7 @@ Il sert à :
 - Documenter les choix techniques **avant** leur implémentation
 - Conserver une trace écrite compréhensible dans le temps
 
-Ce dossier ne contient aucun code exécutable.
+**`docs/pdfs/`** sert à centraliser les PDFs finaux destinés à la transmission et à la synthèse des connaissances.
 
 ---
 
