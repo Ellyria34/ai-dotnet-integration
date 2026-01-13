@@ -33,7 +33,17 @@ The repository evolves progressively, reflecting each step of the learning proce
 ## Repository structure (initial)
 ai-dotnet-integration/
 ├─ docs/ # Learning notes and weekly summaries
+  └─ pdfs/
 ├─ src/ # Application source code (ASP.NET / .NET)
 ├─ experiments/ # Isolated experiments and proofs of concept
 └─ README.md
+
+## License
+
+This project is licensed under the Apache License 2.0.
+
+You are free to use, modify, and distribute this project,
+provided that proper attribution is given to the original author.
+
+Author: Sarah LEON
 
