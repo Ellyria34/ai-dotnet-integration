@@ -12,9 +12,10 @@ Il sert à :
 - Documenter les choix techniques **avant** leur implémentation
 - Conserver une trace écrite compréhensible dans le temps
 
+**`docs/notes/`** sert à centraliser les notes prises lors des recherches biblio/meetup/tuto...
+
 **`docs/pdfs/`** sert à centraliser les PDFs finaux destinés à la transmission et à la synthèse des connaissances.
 
----
 
 ## Rôle de `src/`
 
@@ -30,7 +31,6 @@ Le code présent dans ce dossier doit être :
 - Organisé
 - Plus stable que celui des expérimentations
 
----
 
 ## Rôle de `experiments/`
 
@@ -48,7 +48,6 @@ Le code présent dans ce dossier peut être :
 
 C’est un espace de liberté contrôlée.
 
----
 
 ## Rôle du `README.md`
 
