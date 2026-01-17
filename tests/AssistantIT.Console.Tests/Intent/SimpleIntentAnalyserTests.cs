@@ -1,3 +1,4 @@
+using System.Reflection;
 using AssistantIT.Console.Intent;
 using AssistantIT.Console.Models;
 using Xunit;
@@ -18,6 +19,20 @@ namespace AssistantIT.Console.Tests.Intent
         
             // Assert
             Assert.Equal(UserIntent.AnalyzeLogs, result);
+        }
+
+        [Fact]
+        public void Analyze_WhenInputContainTicket_ReturnAnalyzeTicket()
+        {
+            //Arrange
+            var analyzer = new SimpleIntentAnalyzer();
+            var userInput = "Voici un ticket qui est remonté.";
+
+            //Act
+            var result = analyzer.Analyze(userInput);
+
+            //Assert
+            Assert.Equal(UserIntent.AnalyzeTicket, result);
         }
     }
 }
