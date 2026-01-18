@@ -9,14 +9,14 @@ public class AssistantOrchestrator
     private readonly IIntentAnalyzer _intentAnalyzer;
     private readonly SupportService _supportService;
 
-    public AssistantOrchestrator()
-        : this(new SimpleIntentAnalyzer(), new SupportService())
+    // Default constructor used in production.
+    // It delegates to the injectable constructor with real implementations.
+    public AssistantOrchestrator() : this(new SimpleIntentAnalyzer(), new SupportService())
     {
     }
 
-    public AssistantOrchestrator(
-        IIntentAnalyzer intentAnalyzer,
-        SupportService supportService)
+    // Injectable constructor used for testing.
+    public AssistantOrchestrator(IIntentAnalyzer intentAnalyzer, SupportService supportService)
     {
          _intentAnalyzer = intentAnalyzer;
          _supportService = supportService;
