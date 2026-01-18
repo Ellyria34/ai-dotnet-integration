@@ -6,16 +6,22 @@ namespace AssistantIT.Console.Tests.Support
 {
     public class SupportServiceTests
     {
+        private readonly SupportService _supportService;
+
+        public SupportServiceTests()
+        {
+            _supportService = new SupportService();
+        }
+
         [Fact]
         public void HandleTicket_ReturnsConfirmationMessage()
         {
             //Arrange
-            var support = new SupportService();
             var description = "Problème de connexion signalé par l'utilisateur";
             var expectedResponse = "Ticket reçu. Une analyse de premier niveau sera effectuée.";
             
             //Act
-            var result = support.HandleTicket(description);
+            var result = _supportService.HandleTicket(description);
 
             //Assert
             Assert.Equal(expectedResponse, result);
@@ -25,12 +31,11 @@ namespace AssistantIT.Console.Tests.Support
         public void HandleLogs_ReturnsConfirmationMessage()
         {
             //Arrange
-            var support = new SupportService();
             var description = "list des logs";
             var expectedResponse = "Logs reçus. Analyse préliminaire en cours.";
             
             //Act
-            var result = support.HandleLogs(description);
+            var result = _supportService.HandleLogs(description);
 
             //Assert
             Assert.Equal(expectedResponse, result);
