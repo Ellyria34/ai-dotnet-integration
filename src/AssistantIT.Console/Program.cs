@@ -1,4 +1,4 @@
-﻿using AssistantIT.Console.Orcherstration;
+﻿using AssistantIT.Console.Orchestration;
 
 Console.WriteLine("Assistant IT Support - v1");
 Console.WriteLine("Décris ton problème : ");

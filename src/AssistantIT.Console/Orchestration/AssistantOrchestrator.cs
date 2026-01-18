@@ -2,22 +2,29 @@ using AssistantIT.Console.Intent;
 using AssistantIT.Console.Support;
 using AssistantIT.Console.Models;
 
-namespace AssistantIT.Console.Orcherstration;
+namespace AssistantIT.Console.Orchestration;
 
 public class AssistantOrchestrator
 {
-    private readonly IIntentAnalyzer _intentAnalyser;
+    private readonly IIntentAnalyzer _intentAnalyzer;
     private readonly SupportService _supportService;
 
     public AssistantOrchestrator()
+        : this(new SimpleIntentAnalyzer(), new SupportService())
     {
-        _intentAnalyser = new SimpleIntentAnalyzer();
-        _supportService = new SupportService();
+    }
+
+    public AssistantOrchestrator(
+        IIntentAnalyzer intentAnalyzer,
+        SupportService supportService)
+    {
+         _intentAnalyzer = intentAnalyzer;
+         _supportService = supportService;
     }
 
     public string HandleUserInput(string userInput)
     {
-        var intent = _intentAnalyser.Analyze(userInput);
+        var intent = _intentAnalyzer.Analyze(userInput);
         string response;
         switch (intent)
         {
