@@ -30,13 +30,48 @@ The repository evolves progressively, reflecting each step of the learning proce
 
 ---
 
+## Current state of the project
+
+At its current stage, the repository contains a fully functional and tested **deterministic application core**, designed to serve as a solid foundation for future AI integration.
+
+### AssistantIT.Console
+
+The main implemented application is a **console-based internal IT assistant**, intentionally built without AI in its first version.
+
+Its purpose is to establish a clean, testable, and explainable application flow **before introducing any AI component**.
+
+Key characteristics:
+
+- Clear separation of responsibilities:
+  - Console I/O
+  - Application orchestration
+  - Intent analysis
+  - Business logic (IT support)
+- An explicit orchestrator responsible for routing decisions
+- An intent analyzer abstraction designed to evolve toward AI-based implementations
+- A fully deterministic V1 (no LLM, no RAG, no agent)
+- Comprehensive unit tests covering:
+  - Intent analysis
+  - Business logic
+  - Orchestration and routing decisions
+- No mock frameworks: fakes are implemented explicitly to keep behavior understandable
+
+This approach ensures that AI will later be introduced as an **evolution**, not as a foundational dependency.
+
+---
+
 ## Repository structure (initial)
+
+```text
 ai-dotnet-integration/
-├─ docs/ # Learning notes and weekly summaries
-  └─ pdfs/
-├─ src/ # Application source code (ASP.NET / .NET)
-├─ experiments/ # Isolated experiments and proofs of concept
+├─ docs/          # Learning notes, architectural reasoning, and summaries
+│  └─ pdfs/
+├─ src/           # Application source code (.NET)
+│  └─ AssistantIT.Console/
+├─ tests/         # Unit tests (xUnit, fakes, orchestration tests)
+├─ experiments/   # Isolated experiments and proofs of concept
 └─ README.md
+```
 
 ## License
 
