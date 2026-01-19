@@ -9,7 +9,7 @@ namespace AssistantIT.Console.Tests.Orchestration
     public class AssistantOrchestratorTests
     {
         [Fact]
-        public void HandleUserInput_WhenIntentIsAnalyzeTicket_ReturnsTicketResponse()
+        public async Task HandleUserInput_WhenIntentIsAnalyzeTicket_ReturnsTicketResponse()
         {
             //Arrange
             var fakeIntentAnalyzer = new FakeIntentAnalyzer(UserIntent.AnalyzeTicket);
@@ -20,14 +20,14 @@ namespace AssistantIT.Console.Tests.Orchestration
             var expectedResponse = "Ticket reçu. Une analyse de premier niveau sera effectuée.";
 
             //Act
-            var result = orchestrator.HandleUserInput(userInput);
+            var result = await orchestrator.HandleUserInputAsync(userInput);
 
             //Assert
             Assert.Equal(expectedResponse, result);
         }
 
         [Fact]
-        public void HandleUserInput_WhenIntentIsAnalyzeLogs_ReturnsLogResponse()
+        public async Task HandleUserInput_WhenIntentIsAnalyzeLogs_ReturnsLogResponse()
         {
             //Arrange
             var fakeIntentAnalyzer = new FakeIntentAnalyzer(UserIntent.AnalyzeLogs);
@@ -38,14 +38,14 @@ namespace AssistantIT.Console.Tests.Orchestration
             var expectedResponse = "Logs reçus. Analyse préliminaire en cours.";
 
             //Act
-            var result = orchestrator.HandleUserInput(userInput);
+            var result = await orchestrator.HandleUserInputAsync(userInput);
 
             //Assert
             Assert.Equal(expectedResponse, result);
         }
 
         [Fact]
-        public void HandleUserInput_WhenIntentIsClarifyRequest_ReturnsClarificationMessage ()
+        public async Task HandleUserInput_WhenIntentIsClarifyRequest_ReturnsClarificationMessage ()
         {
             //Arrange
             var fakeIntentAnalyzer = new FakeIntentAnalyzer(UserIntent.ClarifyRequest);
@@ -56,7 +56,7 @@ namespace AssistantIT.Console.Tests.Orchestration
             var expectedResponse = "Peux-tu préciser ton problème ou fournir plus de détails ?";
 
             //Act
-            var result = orchestrator.HandleUserInput(userInput);
+            var result = await orchestrator.HandleUserInputAsync(userInput);
 
             //Assert
             Assert.Equal(expectedResponse, result);

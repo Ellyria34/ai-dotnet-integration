@@ -13,13 +13,13 @@ namespace AssistantIT.Console.Tests.Intent
         [InlineData("", UserIntent.Unknown)]
         [InlineData(" ", UserIntent.Unknown)]
         [InlineData("Je ne comprends pas ce qui se passe", UserIntent.ClarifyRequest)]
-        public void Analyze_WhenInputIsEvaluated_ReturnsExpectedIntent(string userInput, UserIntent expectedIntent)
+        public async Task Analyze_WhenInputIsEvaluated_ReturnsExpectedIntent(string userInput, UserIntent expectedIntent)
         {
             //Arrange
             var analyzer = new SimpleIntentAnalyzer();
 
             //Act
-            var result = analyzer.Analyze(userInput);
+            var result = await analyzer.AnalyzeAsync(userInput);
 
             //Assert
             Assert.Equal(expectedIntent, result);

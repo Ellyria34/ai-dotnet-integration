@@ -1,4 +1,5 @@
 ﻿using AssistantIT.Console.Intent;
+using AssistantIT.Console.LLM;
 using AssistantIT.Console.Orchestration;
 using AssistantIT.Console.Support;
 
@@ -13,10 +14,12 @@ var useIA = Console.ReadLine()?.Trim();
 
 // We choose the concrete implementation at application startup.
 IIntentAnalyzer intentAnalyzer;
+var llmClient = new OpenAiClient(/* config plus tard */);
+
 if(useIA == "1")
 {
     // AI-based analyzer.
-    intentAnalyzer = new AiIntentAnalyzer();
+    intentAnalyzer = new AiIntentAnalyzer(llmClient);
 }
 else
 {
@@ -30,7 +33,7 @@ SupportService supportService  = new SupportService();
 var orchestrator = new AssistantOrchestrator(intentAnalyzer, supportService);
 
 // Execute the application flow.
-var response = orchestrator.HandleUserInput(userInput);
+var response = orchestrator.HandleUserInputAsync(userInput);
 
 Console.WriteLine();
 Console.WriteLine("Réponse de l'assistant :");
