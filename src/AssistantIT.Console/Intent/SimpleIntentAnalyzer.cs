@@ -4,17 +4,18 @@ namespace AssistantIT.Console.Intent;
 
 public class SimpleIntentAnalyzer : IIntentAnalyzer
 {
-    public UserIntent Analyze(string userInput)
+    public Task<UserIntent> AnalyzeAsync (string userInput)
     {
         if (string.IsNullOrWhiteSpace(userInput))
-            return UserIntent.Unknown;
+            return Task.FromResult(UserIntent.Unknown);
 
         if (userInput.Contains("log", StringComparison.OrdinalIgnoreCase))
-            return UserIntent.AnalyzeLogs;
+            return Task.FromResult(UserIntent.AnalyzeLogs);
 
         if (userInput.Contains("ticket", StringComparison.OrdinalIgnoreCase))
-            return UserIntent.AnalyzeTicket;
-        return UserIntent.ClarifyRequest;
+            return Task.FromResult(UserIntent.AnalyzeTicket);
+
+        return Task.FromResult(UserIntent.ClarifyRequest);
     }
 }
 

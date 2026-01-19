@@ -4,5 +4,5 @@ namespace AssistantIT.Console.Intent;
 
 public interface IIntentAnalyzer
 {
-    UserIntent Analyze(string userInput);
+    Task<UserIntent> AnalyzeAsync(string userInput);
 }

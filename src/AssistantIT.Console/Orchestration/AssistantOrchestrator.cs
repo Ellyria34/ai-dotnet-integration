@@ -22,9 +22,9 @@ public class AssistantOrchestrator
          _supportService = supportService;
     }
 
-    public string HandleUserInput(string userInput)
+    public async Task<string> HandleUserInputAsync(string userInput)
     {
-        var intent = _intentAnalyzer.Analyze(userInput);
+        var intent = await _intentAnalyzer.AnalyzeAsync(userInput);
         string response;
         switch (intent)
         {

@@ -12,9 +12,9 @@ namespace AssistantIT.Console.Tests.Fakes
             _intentToReturn = intentToReturn;
         }
 
-        public UserIntent Analyze(string userInput)
+        public Task<UserIntent> AnalyzeAsync (string userInput)
         {
-            return _intentToReturn;
+            return Task.FromResult(_intentToReturn);
         }
     }
 }
