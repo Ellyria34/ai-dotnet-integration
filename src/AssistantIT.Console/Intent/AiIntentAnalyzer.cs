@@ -1,4 +1,4 @@
-using AssistantIT.Console.Intent.FunctionCalling;
+using System.Text.Json;
 using AssistantIT.Console.LLM;
 using AssistantIT.Console.Models;
 
@@ -13,11 +13,6 @@ public class AiIntentAnalyzer : IIntentAnalyzer
         _llmClient = llmClient;
     }
 
-    public Task<UserIntent> Analyze(string userInput)
-    {
-        throw new NotImplementedException();
-    }
-
     public async Task<UserIntent> AnalyzeAsync(string userInput)
     {
         var rawResponse = await _llmClient.CallAsync(
@@ -26,12 +21,29 @@ public class AiIntentAnalyzer : IIntentAnalyzer
             DetectedIntentFunctionSchema.Json
         );
 
-        // TEMPORAIRE : parsing viendra après
-        DetectedIntentResponse detectedIntentResponse = new DetectedIntentResponse
+        try
         {
-            Intent = UserIntent.Unknown
-        };
+            using var document = JsonDocument.Parse(rawResponse);
 
-        return detectedIntentResponse.Intent;
+            var argumentsJson =
+                document.RootElement
+                    .GetProperty("choices")[0]
+                    .GetProperty("message")
+                    .GetProperty("function_call")
+                    .GetProperty("arguments")
+                    .GetString();
+
+            if (string.IsNullOrWhiteSpace(argumentsJson))
+                return UserIntent.Unknown;
+
+            var detectedIntent =
+                JsonSerializer.Deserialize<DetectedIntentResponse>(argumentsJson);
+
+            return detectedIntent?.Intent ?? UserIntent.Unknown;
+        }
+        catch
+        {
+            return UserIntent.Unknown;
+        }
     }
 }
