@@ -80,6 +80,66 @@ public class AiIntentAnalyzerTests
 
         //Assert
         Assert.Equal(UserIntent.AnalyzeTicket, result);
+    }
 
+    [Fact]
+    public async Task AnalyzeAsync_WhenIntentIsClarifyRequest_ReturnsClarifyRequest()
+    {
+        //Arrange
+                var openAiJsonResponse = """
+                {
+                "choices": [
+                    {
+                    "message": {
+                        "role": "assistant",
+                        "content": null,
+                        "function_call": {
+                        "name": "detect_user_intent",
+                        "arguments": "{ \"intent\": \"ClarifyRequest\", \"reason\": \"User mentions is not specific\" }"
+                        }
+                    }
+                    }
+                ]
+                }
+                """;
+        var llmClient = new FakeLLMClient(openAiJsonResponse);
+        var analyzer = new AiIntentAnalyzer(llmClient);
+
+        //Act
+        var result = await analyzer.AnalyzeAsync("I need help.");
+
+        //Assert
+        Assert.Equal(UserIntent.ClarifyRequest, result);
+    }
+
+    [Fact]
+    public async Task AnalyzeAsync_WhenArgumentsDoNotContainIntent_ReturnsUnknown()
+    {
+        //Arrange
+            var openAiJsonResponse = """
+                {
+                "choices": [
+                    {
+                    "message": {
+                        "role": "assistant",
+                        "content": null,
+                        "function_call": {
+                        "name": "detect_user_intent",
+                        "arguments": "{}"
+                        }
+                    }
+                    }
+                ]
+                }
+                """;
+
+        var llmClient = new FakeLLMClient(openAiJsonResponse);
+        var analyzer = new AiIntentAnalyzer(llmClient);
+
+        //Act
+        var result = await analyzer.AnalyzeAsync("please check ticket");
+
+        //Assert
+        Assert.Equal(UserIntent.Unknown, result);
     }
 }
