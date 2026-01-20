@@ -3,6 +3,7 @@ using AssistantIT.Console.LLM;
 using AssistantIT.Console.Orchestration;
 using AssistantIT.Console.Support;
 
+
 Console.WriteLine("Assistant IT Support - v1");
 Console.WriteLine("Décris ton problème : ");
 var userInput = Console.ReadLine() ?? string.Empty;
@@ -14,7 +15,8 @@ var useIA = Console.ReadLine()?.Trim();
 
 // We choose the concrete implementation at application startup.
 IIntentAnalyzer intentAnalyzer;
-var llmClient = new OpenAiClient(/* config plus tard */);
+var httpClient = new HttpClient();
+var llmClient = new OpenAiClient(httpClient);
 
 if(useIA == "1")
 {
@@ -33,7 +35,7 @@ SupportService supportService  = new SupportService();
 var orchestrator = new AssistantOrchestrator(intentAnalyzer, supportService);
 
 // Execute the application flow.
-var response = orchestrator.HandleUserInputAsync(userInput);
+var response = await orchestrator.HandleUserInputAsync(userInput);
 
 Console.WriteLine();
 Console.WriteLine("Réponse de l'assistant :");
