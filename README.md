@@ -30,9 +30,26 @@ The repository evolves progressively, reflecting each step of the learning proce
 
 ---
 
-## Current state of the project
+## Scope and learning boundaries
 
-At its current stage, the repository contains a fully functional and tested **deterministic application core**, designed to serve as a solid foundation for future AI integration.
+### The **AssistantIT.Console** project has a deliberately limited scope.
+
+Its purpose is **not** to evolve into a full-featured AI assistant, but to serve as a focused learning exercise on:
+
+- OpenAI function calling
+- Clean AI integration in a .NET application
+- Architectural boundaries between AI and business logic
+- Testing strategies for AI-assisted systems
+
+Once these objectives are met, the project is intentionally considered **complete**.
+
+### Further experimentation (RAG, agents, memory, advanced orchestration) is explored through **separate projects**, each designed to address a specific level of complexity.
+
+This approach ensures that:
+- each project remains conceptually clear,
+- learning goals are explicit,
+- and architectural decisions remain easy to explain and defend.
+
 
 ### AssistantIT.Console
 
@@ -82,3 +99,11 @@ provided that proper attribution is given to the original author.
 
 Author: Sarah LEON
 
+
+## Documentation language
+
+The main `README.md` is written in English, as it serves as the public entry point of the repository.
+
+Most internal documentation files located in the `docs/` directory are written in French.
+This choice is intentional and aims to preserve clarity and precision when explaining
+architectural reasoning and learning-oriented content.
