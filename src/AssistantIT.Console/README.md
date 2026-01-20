@@ -1,56 +1,80 @@
 # AssistantIT.Console
 
-This project is a **pedagogical proof of concept** designed to explore and understand
-**how to integrate AI (LLMs) into a .NET application in a clean and controlled way**.
+This project is a **pedagogical proof of concept** designed to explore and demystify  
+**how to integrate a Large Language Model (LLM) into a .NET application in a clean, explicit, and controlled way**.
 
 It is intentionally **not** a production-ready application.
 
 
 ## Purpose of this project
 
-The goal of this project is to demonstrate:
+The primary goal of this project is to **understand concretely how AI integration works in practice**, beyond theory and abstractions.
 
-- How to integrate an AI component without making it the core of the system
-- How to use OpenAI function calling to produce structured, contract-based outputs
-- How to keep business logic deterministic and independent from AI
-- How to preserve testability in an AI-assisted application
+More specifically, it aims to demonstrate:
 
-The project focuses specifically on **intent analysis via AI**, and nothing more.
+- How to integrate an LLM **without delegating control of the application**
+- How to use **OpenAI Function Calling** to produce structured, contract-based outputs
+- How to keep orchestration and execution **fully application-driven**
+- How to integrate AI while preserving determinism, testability, and clarity
+
+This project focuses specifically on **intent analysis using a LLM**, as a first and contained AI use case.
 
 
 ## What this project does
 
 - Provides a console-based internal IT assistant
-- Uses AI exclusively to classify user input into structured intents
-- Routes intents through an explicit application orchestrator
-- Executes IT support business logic independently of AI
-- Includes a dedicated test project with explicit fakes (no AI calls in tests)
+- Uses a LLM to:
+  - analyze free-form user input,
+  - interpret user intent,
+  - propose a suitable function call via Function Calling
+- Keeps all execution logic under **explicit application control**
+- Routes intents through a deterministic application orchestrator
+- Executes IT support business logic independently of the AI
+- Allows the application to run **with or without AI**, depending on configuration
+- Includes a dedicated test project using explicit fakes (no AI calls in tests)
+
+
+## Role of the LLM
+
+The LLM is used strictly as an **analysis and routing mechanism**.
+
+- It does **not** execute business logic
+- It does **not** control the workflow
+- It does **not** make autonomous decisions
+
+The application defines:
+- when the LLM is called,
+- what functions are available,
+- how results are validated and executed.
+
+This design choice is intentional and central to the learning objectives.
 
 
 ## What this project deliberately does NOT do
 
 - No Retrieval-Augmented Generation (RAG)
 - No conversational memory
-- No multi-agent architecture
+- No agentic or autonomous AI behavior
 - No AI-driven business decisions
 - No production hardening
 
-These limitations are **intentional** and aligned with the learning objectives.
+These limitations are **intentional**, allowing the project to stay focused on
+understanding Function Calling and controlled AI integration.
 
 
 ## Documentation
 
-The architectural decisions and testing strategy are documented in detail:
+The architectural decisions and design rationale are documented in detail:
 
 - `docs/architecture.md`
 - `docs/testing-strategy.md`
 
-These documents explain the *why* behind the design, not just the implementation.
+These documents explain **why** certain choices were made, not just how the code works.
 
 
 ## Project status
 
-This project is considered **complete** from a learning perspective.
+This project is considered **complete for its learning scope**.
 
-Further AI experimentation is intentionally performed in **separate projects** to keep
-each learning objective clearly scoped.
+The next learning step — exploring **agentic approaches** — is intentionally planned
+as a **separate experiment**, built on top of the foundations validated here.

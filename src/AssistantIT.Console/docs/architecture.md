@@ -1,313 +1,257 @@
-# Architecture – Assistant IT Support (V1 - POC pédagogique)
+# Architecture – Assistant IT Support (V1 – POC pédagogique)
 
 ## 1. Contexte et objectifs du projet
 
-Ce projet implémente un **Assistant IT interne fictif**, sous forme d’application console .NET, intégrant une IA (OpenAI) pour l’analyse d’intentions utilisateur.
+Ce projet implémente un **Assistant IT interne fictif**, sous forme d’application console .NET, intégrant un **LLM (OpenAI)** pour l’analyse d’intentions utilisateur.
 
-Il s’agit volontairement d’un **POC d’apprentissage** dont l’objectif principal est de comprendre et démontrer :
-- comment intégrer une IA dans une application existante,
-- comment structurer cette intégration de manière robuste et maintenable,
-- comment éviter que l’IA devienne un point de fragilité ou de couplage fort.
+Il s’agit volontairement d’un **POC d’apprentissage**, dont l’objectif principal est de :
+- comprendre concrètement comment intégrer une IA dans une application existante,
+- démystifier le rôle réel d’un LLM dans une architecture applicative,
+- structurer cette intégration de manière claire, contrôlée et maintenable,
+- éviter que l’IA devienne un point de fragilité ou un couplage fort.
 
-Ce projet n’a pas vocation à être déployé en production.
+Ce projet n’a **pas vocation à être déployé en production**.
 
 Les choix techniques privilégient :
 - la lisibilité,
 - la clarté conceptuelle,
-- et la pédagogie,
+- la pédagogie,
 au détriment d’optimisations prématurées.
 
 
 ## 2. Vision d’architecture globale
 
-L’architecture repose sur un principe fondamental : **L’IA n’est pas le cœur du système, elle est un composant d’aide à la décision.**
+L’architecture repose sur un principe fondamental :
 
-L’application suit un flux classique :
-- Réception d’un message utilisateur
-- Analyse de l’intention via l’IA
-- Interprétation applicative de cette intention
-- Exécution d’une logique métier déterministe
+**Le LLM n’est pas le cœur du système.  
+Il agit comme un composant d’analyse, au service d’un flux applicatif piloté par le code.**
 
-L’IA intervient **en amont du métier**, uniquement pour produire une information structurée exploitable par le code.
+Le flux global est le suivant :
+- réception d’un message utilisateur,
+- analyse de l’intention à l’aide du LLM,
+- interprétation applicative de cette intention,
+- exécution d’une logique métier déterministe.
+
+Le LLM intervient **en amont du métier**, uniquement pour produire une information
+structurée exploitable par l’application.
 
 Ce positionnement permet de conserver :
 - un contrôle total sur les actions exécutées,
-- une architecture testable,
+- une architecture testable et explicable,
 - une séparation claire des responsabilités.
 
-## 3. Rôle de l’IA dans le système
 
-Dans cette V1, l’IA est utilisée exclusivement pour :
+## 3. Rôle du LLM dans le système
+
+Dans cette V1, le LLM est utilisé exclusivement pour :
 - analyser un texte libre fourni par l’utilisateur,
-- classifier ce texte en **une intention normalisée.**
+- interpréter ce texte,
+- produire une **intention normalisée et structurée**.
 
-L’IA ne :
-- déclenche aucune action directement,
-- modifie aucun état applicatif,
-- contient aucune logique métier.
+Le LLM :
+- ne déclenche aucune action,
+- ne modifie aucun état applicatif,
+- ne contient aucune logique métier,
+- ne pilote aucun workflow.
 
 Cette restriction est volontaire.
 
 Elle permet :
 - de limiter l’impact des erreurs ou hallucinations,
-- de garantir que toute action reste sous contrôle du code,
-- de rendre le comportement global du système explicable et prévisible.
+- de garantir que toute action reste sous contrôle applicatif,
+- de rendre le comportement global du système prévisible et compréhensible.
 
 
 ## 4. Choix du Function Calling
 
-Le projet utilise le function calling d’OpenAI pour encadrer strictement les réponses de l’IA.
+Le projet utilise le **Function Calling d’OpenAI** afin d’encadrer strictement les sorties du LLM.
 
-**Problème initial**
+### Problème initial
 
 Une réponse textuelle libre :
 - est ambiguë,
 - difficile à parser,
 - peu fiable pour piloter une logique applicative.
 
-**Solution retenue**
+### Solution retenue
 
-Le function calling permet de :
-- définir un schéma contractuel attendu,
-- forcer l’IA à produire une sortie structurée,
-- transformer une réponse probabiliste en un signal applicatif exploitable.
+Le Function Calling permet de :
+- définir un schéma contractuel explicite,
+- forcer le LLM à produire une sortie structurée,
+- transformer une réponse probabiliste en signal applicatif exploitable.
 
-**Bénéfices**
+### Bénéfices
 
 - Robustesse accrue
 - Validation explicite des sorties
 - Découplage entre langage naturel et logique métier
 
-Le function calling agit comme un **contrat entre l’IA et l’application.**
+Le Function Calling agit comme un **contrat formel entre le LLM et l’application**.
 
 
 ## 5. Séparation du schéma d’intention
 
-Le schéma décrivant les intentions possibles est défini dans un composant dédié, séparé de l’implémentation de l’analyseur.
+Le schéma décrivant les intentions possibles est défini dans un composant dédié,
+séparé de l’implémentation de l’analyse d’intention.
 
-Ce choix répond à plusieurs objectifs :
-- éviter les constantes “magiques” enfouies dans le code,
-- rendre le contrat IA explicite et visible,
-- faciliter l’évolution future (ajout d’intentions, versioning).
+Ce choix permet :
+- d’éviter des constantes implicites ou “magiques”,
+- de rendre le contrat IA visible et explicite,
+- de faciliter l’évolution future (nouvelles intentions, versioning).
 
 Le schéma est considéré comme :
 - un élément d’architecture,
 - et non comme un simple détail d’implémentation.
 
 Cette séparation améliore :
-- la lisibilité globale,
-- la responsabilité unique des classes,
-- la capacité à faire évoluer l’architecture vers des scénarios plus complexes (multi-agents, orchestration avancée).
+- la lisibilité,
+- la responsabilité unique des composants,
+- la capacité d’évolution contrôlée du système.
+
 
 ## 6. Modélisation de l’intention
 
-L’intention produite par l’IA est modélisée comme un objet métier simple.
+L’intention produite par le LLM est modélisée comme un objet métier simple.
 
 Deux notions sont distinguées :
-- Intent : information décisionnelle utilisée par l’application
-- Reason (ou équivalent) : contexte explicatif fourni par l’IA
+- **Intent** : information décisionnelle utilisée par l’application,
+- **Context / Reason** : information explicative fournie par le LLM.
 
 Seule l’intention fait partie de l’identité logique du résultat.
 
-Le contexte explicatif :
-- n’influence pas la décision métier,
-- n’est pas utilisé pour les comparaisons,
-- sert uniquement à des fins de compréhension ou de debug.
+Les données explicatives :
+- n’influencent aucune décision métier,
+- ne sont pas utilisées pour les comparaisons,
+- servent uniquement à des fins de compréhension ou de diagnostic.
 
-Ce choix reflète une distinction importante : Toutes les données produites par l’IA ne font pas partie de l’identité métier.
+Ce choix reflète un principe clé :
+**toutes les données produites par un LLM ne font pas partie du modèle métier.**
 
 
 ## 7. Orchestration applicative
 
-Le composant d’orchestration joue un rôle central.
+Le composant d’orchestration est **entièrement applicatif**.
 
 Il est responsable de :
 - coordonner l’analyse d’intention,
-- interpréter le résultat IA,
-- déclencher la logique applicative appropriée.
+- interpréter le résultat produit par le LLM,
+- déclencher la logique métier appropriée.
 
 L’orchestrateur :
 - ne contient aucune logique IA,
-- ne contient aucune logique métier spécifique,
-- agit comme un chef d’orchestre entre composants spécialisés.
+- ne contient aucune logique métier,
+- ne prend aucune décision autonome.
 
-Cette couche permet :
+Il agit comme une couche de coordination explicite entre composants spécialisés.
+
+Cette séparation garantit :
 - une lecture claire du flux applicatif,
 - une meilleure testabilité,
-- une évolutivité contrôlée.
+- une évolutivité maîtrisée.
+
 
 ## 8. Responsabilités des composants
 
-Cette section décrit les responsabilités architecturales des principaux composants de l’application.
-Elle sert de contrat de conception et définit les règles de séparation des responsabilités.
-
 ### Program.cs
 
-Program.cs est le point d’entrée de l’application.
+Point d’entrée de l’application.
 
 Responsabilités :
 - gestion des entrées/sorties console,
 - démarrage de l’application,
 - délégation complète du traitement à l’orchestrateur.
 
-Règle fondamentale : Program.cs ne contient aucune logique métier ni décisionnelle.
+Aucune logique métier, décisionnelle ou IA n’est présente dans ce composant.
 
-Il se limite strictement à :
-- lire l’entrée utilisateur,
-- appeler l’orchestrateur,
-- afficher la réponse finale.
-
-Il ne réalise :
-- aucune analyse,
-- aucune prise de décision,
-- aucune logique de support,
-- aucune interaction directe avec l’IA.
 
 ### AssistantOrchestrator
 
-L’AssistantOrchestrator représente le cerveau applicatif, mais pas l’exécutant métier.
-
-Responsabilités : orchestration du flux applicatif,
-
-coordination entre :
-- l’analyse d’intention,
-- les services métier IT support,
-- l’assemblage de la réponse finale.
+Responsable de la coordination du flux applicatif.
 
 Il :
 - appelle l’IIntentAnalyzer,
+- interprète l’intention retournée,
 - route la demande vers le service métier approprié,
-- agrège les résultats pour produire une réponse cohérente.
+- assemble la réponse finale.
 
-Il ne :
-- contient aucune logique métier détaillée,
-- analyse aucun log ou ticket lui-même,
-- implémente aucune logique IA interne,
-- gère aucune entrée/sortie utilisateur.
+Il ne contient ni logique métier détaillée, ni logique IA.
 
-Ce découplage garantit une orchestration lisible, testable et évolutive.
 
 ### IIntentAnalyzer
 
-IIntentAnalyzer définit la frontière entre le langage naturel et le monde applicatif structuré.
-
-Rôle architectural :
-- isoler la compréhension du langage naturel,
-- protéger le cœur applicatif des évolutions IA,
-- permettre l’introduction future de LLMs, d’agents ou de RAG sans refonte du métier.
+Frontière entre langage naturel et monde applicatif structuré.
 
 Responsabilités :
 - analyser une demande utilisateur brute,
-- produire une intention explicite et structurée,
-- garantir un contrat clair entre l’IA et l’application.
+- produire une intention structurée,
+- garantir un contrat stable entre l’IA et l’application.
 
-L’implémentation concrète peut évoluer, mais l’interface reste stable.
+L’implémentation peut évoluer sans impacter le cœur applicatif.
+
 
 ### SupportService
 
-Le SupportService implémente la logique métier IT support.
+Implémente la logique métier IT support.
 
-Responsabilités :
-- traiter des demandes métier à partir de données structurées,
-- analyser des tickets,
-- interpréter des résultats de logs,
-- proposer des causes probables,
-- recommander des actions ou des escalades.
+Règle clé :
+**le SupportService ne connaît pas l’IA.**
 
-Règle clé : Le SupportService ne connaît pas l’IA.
+Il manipule uniquement des intentions et des modèles métier explicites,
+garantissant l’indépendance du domaine métier.
 
-Il reçoit :
-- des intentions,
-- des modèles métier explicites.
-
-Il retourne :
-- des résultats métier structurés.
-- Cette isolation garantit que la logique métier reste indépendante des choix technologiques liés à l’IA.
 
 ### Modèles métier
 
-Les modèles métier représentent les données manipulées par le domaine IT support
-(ex. : SupportTicket, LogAnalysisResult, SupportRecommendation).
+Les modèles métier représentent les données du domaine IT support.
 
-Règles de conception :
-- modèles simples et explicites,
+Règles :
+- modèles simples,
 - aucune dépendance à l’IA,
-- aucun accès à l’infrastructure,
-- comportement minimal en V1.
-
-Ils constituent le langage commun entre les composants métier.
-
-### Structure de dossiers
-
-L’organisation des dossiers reflète directement les responsabilités architecturales :
-
-```
-AssistantIT.Console/
- ├── Program.cs
- ├── Orchestration/
- │    └── AssistantOrchestrator.cs
- ├── Intent/
- │    ├── IIntentAnalyzer.cs
- │    └── SimpleIntentAnalyzer.cs
- ├── Support/
- │    └── SupportService.cs
- └── Models/
-      ├── SupportTicket.cs
-      ├── LogAnalysisResult.cs
-      ├── SupportRecommendation.cs
-      └── UserIntent.cs
-```
-
-Cette structure favorise :
-- la lisibilité,
-- la séparation des responsabilités,
-- et l’évolutivité de l’architecture.
+- aucune dépendance à l’infrastructure.
 
 
 ## 9. Flux détaillé d’un appel utilisateur
 
-Le déroulement complet d’un appel est le suivant :
-- L’utilisateur saisit une requête en langage naturel
-- La requête est transmise à l’analyseur d’intention
-- L’IA retourne une intention structurée via function calling
-- Le résultat est validé et interprété
-- L’orchestrateur décide de l’action à effectuer
-- La logique IT correspondante est exécutée
+- saisie d’une requête en langage naturel,
+- analyse de l’intention via le LLM,
+- production d’une intention structurée (Function Calling),
+- validation et interprétation applicative,
+- exécution de la logique métier correspondante.
 
-Chaque étape est volontairement simple et clairement délimitée.
+Chaque étape est volontairement simple et isolée.
 
 
 ## 10. Tests et validation
 
-Le projet inclut un projet de tests unitaires dédié.
-Les tests ne cherchent pas à valider le comportement de l’IA elle-même, mais à garantir que :
-- l’application réagit correctement à une intention donnée,
-- l’orchestration applique la bonne logique,
-- les composants sont isolés et remplaçables.
+Les tests unitaires valident :
+- le comportement applicatif face à une intention donnée,
+- l’orchestration,
+- l’isolation des composants.
 
-La stratégie de test est documentée séparément dans docs/testing-strategy.md.
+Le comportement du LLM lui-même n’est pas testé.
+
+La stratégie est détaillée dans `docs/testing-strategy.md`.
 
 
-## 11. Limites volontaires du projet
+## 11. Limites volontaires
 
-Cette version n’inclut volontairement pas :
-- de RAG (Retrieval Augmented Generation),
-- de mémoire conversationnelle,
-- de multi-agents,
-- de raisonnement complexe côté IA,
-- d’observabilité avancée.
+Cette V1 n’inclut volontairement pas :
+- RAG,
+- mémoire conversationnelle,
+- comportements agentiques,
+- raisonnement autonome,
+- observabilité avancée.
 
-Ces limitations permettent de :
-- conserver un périmètre maîtrisé,
-- solidifier les fondations,
-- éviter une complexité prématurée.
+Ces limites permettent de consolider les fondations
+avant toute montée en complexité.
+
 
 ## 12. Conclusion
 
-Ce projet démontre qu’une IA peut être intégrée :
-- comme un composant logiciel maîtrisé,
-- avec des responsabilités claires,
-- sans compromettre la testabilité ni la lisibilité du système.
+Cette architecture démontre qu’un LLM peut être intégré :
+- comme un composant maîtrisé,
+- avec des responsabilités clairement définies,
+- sans compromettre la lisibilité ni la testabilité du système.
 
-Cette V1 pose volontairement des bases simples et solides, afin de privilégier
-la compréhension architecturale avant toute montée en complexité.
+Cette V1 privilégie la compréhension architecturale
+avant l’exploration de modèles plus complexes.
