@@ -69,10 +69,25 @@ KnowledgeAssistant.Console
 
 Cette organisation est logique, non physique au sens multi-projets, mais elle permet une future extraction sans renommage.
 
+## 5.Testing
 
-## 5. Rôle des couches
+Tests for this project are located in: ../../tests/KnowledgeAssistant.Console.Tests
+This separation is intentional and aligns with the monorepo structure of **IA-DOTNET-INTEGRATION**.
 
-### 5.1 Domain
+### Testing principles
+
+- Core domain logic is fully testable without any AI dependency
+- Retrieval, chunking, and scoring logic are covered by deterministic tests
+- End-to-end behavior of the RAG pipeline (excluding LLM calls) can be validated through controlled scenarios
+- LLM-based generation is abstracted and excluded from blocking tests
+- No test requires network access or external services by default
+
+The goal is to ensure that the RAG pipeline can be validated and reasoned about independently of the underlying language model.
+
+
+## 6. Rôle des couches
+
+### 6.1 Domain
 
 Responsabilités :
 - Modèles métier fondamentaux (Document, Chunk, etc.)
@@ -85,7 +100,7 @@ Contraintes :
 - Aucune logique d’orchestration
 
 
-### 5.2 Application
+### 6.2 Application
 
 Responsabilités :
 - Orchestration du pipeline RAG
@@ -102,7 +117,7 @@ Contraintes :
 - Ne contient aucune implémentation technique
 
 
-### 5.3 Infrastructure
+### 6.3 Infrastructure
 
 Responsabilités :
 - Implémentations concrètes des abstractions
@@ -114,7 +129,7 @@ Contraintes :
 - Dépend de Application et Domain
 - Aucune logique métier décisionnelle
 
-6. Flux applicatif (pipeline RAG)
+## 7. Flux applicatif (pipeline RAG)
 
 Flux conceptuel :
 
@@ -138,7 +153,7 @@ Chaque étape est :
 - observable
 
 
-## 7. Choix mono-projet : justification
+## 8. Choix mono-projet : justification
 
 Le choix de conserver une architecture interne mono-projet est intentionnel :
 - Réduction de la complexité initiale
