@@ -1,5 +1,3 @@
-using System;
-
 namespace KnowledgeAssistant.Domain.ValueObjects
 {
     /// <summary>
