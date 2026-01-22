@@ -41,7 +41,7 @@ Each project in this repository is autonomous and documents a specific integrati
 
 - `docs/project-vision.md` — project intent, scope, and constraints
 - `docs/architecture.md` — internal architecture and conventions
-
+- `docs/evolutions.md` — potential future evolutions
 
 ## Status
 
