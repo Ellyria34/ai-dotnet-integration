@@ -1,13 +1,15 @@
-namespace KnowledgeAssistant.Infrastructure.KnowledgeSources
+using KnowledgeAssistant.Console.Application.Abstractions;
+
+namespace KnowledgeAssistant.Console.Domain.Models
 {
     /// <summary>
     /// Loads knowledge documents from text files located in a directory.
     /// </summary>
-    public sealed class FileKnowledgeSource : IKnowledgeSource
+    public sealed class KnowledgeSource : IKnowledgeSource
     {
         private readonly string _directoryPath;
 
-        public FileKnowledgeSource(string directoryPath)
+        public KnowledgeSource(string directoryPath)
         {
             if (string.IsNullOrWhiteSpace(directoryPath))
                 throw new ArgumentException("Directory path cannot be empty.", nameof(directoryPath));

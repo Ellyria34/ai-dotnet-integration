@@ -1,4 +1,4 @@
-namespace KnowledgeAssistant.Domain.Models
+namespace KnowledgeAssistant.Console.Domain.Models
 {
     /// <summary>
     /// This class represents a portion of a document content and 

@@ -1,6 +1,5 @@
-using System.Reflection;
-using AssistantIT.Console.Support;
-using Xunit;
+using KnowledgeAssistant.Console.Domain.Models;
+
 
 namespace AssistantIT.Console.Tests.Support
 {

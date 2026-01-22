@@ -1,4 +1,4 @@
-namespace KnowledgeAssistant.Domain.Models
+namespace KnowledgeAssistant.Console.Domain.Models
 {
     /// <summary>
     /// This class represents the result of a retrieval operation

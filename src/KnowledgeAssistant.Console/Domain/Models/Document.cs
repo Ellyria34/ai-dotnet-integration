@@ -1,4 +1,4 @@
-namespace KnowledgeAssistant.Domain.Models
+namespace KnowledgeAssistant.Console.Domain.Models
 {
     /// <summary>
     /// This class represents a raw knowledge document and exists to model a source of information before any processing or transformation occurs within the knowledge pipeline.

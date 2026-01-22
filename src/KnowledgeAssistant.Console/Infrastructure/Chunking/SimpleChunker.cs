@@ -1,4 +1,7 @@
-namespace KnowledgeAssistant.Infrastructure.Chunking
+using KnowledgeAssistant.Console.Domain.Models;
+using KnowledgeAssistant.Console.Application.Abstractions;
+
+namespace KnowledgeAssistant.Console.Infrastructure.Chunking
 {
     /// <summary>
     /// Splits a document into fixed-size text chunks.
