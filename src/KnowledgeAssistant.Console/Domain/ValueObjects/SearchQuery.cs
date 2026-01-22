@@ -1,4 +1,5 @@
-namespace KnowledgeAssistant.Domain.ValueObjects
+namespace KnowledgeAssistant.Console.Domain.ValueObjects
+
 {
     /// <summary>
     /// This value object represents a user search query 

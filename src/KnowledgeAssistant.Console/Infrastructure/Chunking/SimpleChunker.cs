@@ -25,6 +25,10 @@ namespace KnowledgeAssistant.Console.Infrastructure.Chunking
 
             var content = document.Content;
 
+            // The loop advances by chunk size and ensures the last chunk
+            // never exceeds the remaining content length.
+            // Using yield return allows chunks to be produced lazily
+            // without allocating an intermediate collection.
             for (int i = 0; i < content.Length; i += _chunkSize)
             {
                 var length = Math.Min(_chunkSize, content.Length - i);
