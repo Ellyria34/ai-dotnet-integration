@@ -6,9 +6,13 @@ using KnowledgeAssistant.Console.Infrastructure.Retrieval;
 using KnowledgeAssistant.Console.Infrastructure.Generation;
 
 var retriever = new SimpleKeywordRetriever();
-var generator = new FakeAnswerGenerator();
+// var generator = new FakeAnswerGenerator();
 
-var useCase = new GenerateAnswerUseCase(retriever, generator);
+var promptBuilder = new SimplePromptBuilder();
+var answerGenerator = new LLMAnswerGenerator(promptBuilder);
+
+// var useCase = new GenerateAnswerUseCase(retriever, generator);
+var useCase = new GenerateAnswerUseCase(retriever, answerGenerator);
 
 // Fake knowledge base (normally produced by chunking)
 var knowledgeBase = new List<KnowledgeChunk>
@@ -28,4 +32,4 @@ var query = new SearchQuery("RAG");
 
 var answer = await useCase.ExecuteAsync(query, knowledgeBase);
 
-Console.WriteLine(answer);
+Console.WriteLine(answer.Content);
