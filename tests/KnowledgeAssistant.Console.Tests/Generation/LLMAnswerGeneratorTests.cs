@@ -14,7 +14,7 @@ namespace KnowledgeAssistant.Console.Tests.Generation
             var promptBuilder = new FakePromptBuilder();
             var generator = new LLMAnswerGenerator(promptBuilder);
 
-            var query = new SearchQuery("RAG");
+            var query = new SearchQuery("que signifie RAG");
             var context = new RetrievedContext(new[]
             {
                 new KnowledgeChunk(

@@ -34,7 +34,7 @@ namespace KnowledgeAssistant.Console.Infrastructure.Generation
         {
             // Simulation volontairement simple
             return
-                "[SIMULATED LLM ANSWER]\n" +
+                "[LLM ANSWER (with RAG included)]\n" +
                 "Based on the provided context, here is the answer:\n\n" +
                 prompt.Content;
         }

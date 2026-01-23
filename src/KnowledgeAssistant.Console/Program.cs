@@ -6,9 +6,12 @@ using KnowledgeAssistant.Console.Infrastructure.Retrieval;
 using KnowledgeAssistant.Console.Infrastructure.Generation;
 
 var retriever = new SimpleKeywordRetriever();
-// var generator = new FakeAnswerGenerator();
-
 var promptBuilder = new SimplePromptBuilder();
+
+var apiKey = Environment.GetEnvironmentVariable("OPENAI_API_KEY")
+    ?? throw new InvalidOperationException("OPENAI_API_KEY not set");
+    
+// var generator = new FakeAnswerGenerator();
 var answerGenerator = new LLMAnswerGenerator(promptBuilder);
 
 // var useCase = new GenerateAnswerUseCase(retriever, generator);
