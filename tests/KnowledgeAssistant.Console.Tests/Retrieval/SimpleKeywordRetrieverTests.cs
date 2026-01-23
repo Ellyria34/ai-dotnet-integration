@@ -22,7 +22,6 @@ namespace KnowledgeAssistant.Console.Tests.Retrieval
             //Act and Assert
             Assert.Throws<ArgumentNullException>(() =>
                 _retriever.Retrieve(null!, chunks).ToList());
-
         }
 
         [Fact]

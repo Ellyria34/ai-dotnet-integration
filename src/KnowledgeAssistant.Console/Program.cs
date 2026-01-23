@@ -1,8 +1,9 @@
 ﻿using KnowledgeAssistant.Console.Application.UseCases;
+using KnowledgeAssistant.Console.Application.Models;
 using KnowledgeAssistant.Console.Domain.Models;
 using KnowledgeAssistant.Console.Domain.ValueObjects;
 using KnowledgeAssistant.Console.Infrastructure.Retrieval;
-using KnowledgeAssistant.Console.Infrastructure.generation;
+using KnowledgeAssistant.Console.Infrastructure.Generation;
 
 var retriever = new SimpleKeywordRetriever();
 var generator = new FakeAnswerGenerator();

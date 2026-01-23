@@ -1,14 +1,16 @@
 using KnowledgeAssistant.Console.Application.Abstractions;
+using KnowledgeAssistant.Console.Application.Models;
 using KnowledgeAssistant.Console.Domain.Models;
 using KnowledgeAssistant.Console.Domain.ValueObjects;
 
     public sealed class FakeAnswerGenerator : IAnswerGenerator
     {
-        public Task<string> GenerateAsync(
+        public Task<GeneratedAnswer> GenerateAsync(
             SearchQuery query,
             RetrievedContext context,
-            CancellationToken cancellationToken = default)
+            CancellationToken cancellationToken = default
+        )
         {
-            return Task.FromResult("RAG signifie Retrieval Augmented Generation");
+            return Task.FromResult(new GeneratedAnswer("RAG signifie Retrieval Augmented Generation"));
         }
     }

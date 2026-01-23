@@ -1,6 +1,7 @@
 using KnowledgeAssistant.Console.Application.Abstractions;
 using KnowledgeAssistant.Console.Application.UseCases;
 using KnowledgeAssistant.Console.Domain.Models;
+using KnowledgeAssistant.Console.Application.Models;
 using KnowledgeAssistant.Console.Domain.ValueObjects;
 
 
@@ -9,7 +10,7 @@ namespace KnowledgeAssistant.Console.Tests.UseCases
     public class GenerateAnswerUseCaseTests
     {
         [Fact]
-        public async void ExecuteAsync_whenQueryIsNull_ReturnAgumentExeception()
+        public async Task ExecuteAsync_whenQueryIsNull_ReturnAgumentExeception()
         {
               // Arrange
             var retriever = new FakeRetrieverReturningEmpty();
@@ -24,7 +25,7 @@ namespace KnowledgeAssistant.Console.Tests.UseCases
         }
 
         [Fact]
-        public async void ExecuteAsync_WhenNoChunksAreFound_ReturnsInformationMessage()
+        public async Task ExecuteAsync_WhenNoChunksAreFound_ReturnsInformationMessage()
         {
             // Arrange
             var query = new SearchQuery("RAG");
@@ -34,14 +35,14 @@ namespace KnowledgeAssistant.Console.Tests.UseCases
             var useCase = new GenerateAnswerUseCase(retriever, generator);
 
             //Act
-            var answer = await useCase.ExecuteAsync(query, knowledgeBase);
+            var answer = await useCase.ExecuteAsync(query, knowledgeBase, default);
 
             // Assert
-            Assert.Equal("No relevant information found in the knowledge base.", answer);
+            Assert.Equal("No relevant information found in the knowledge base.", answer.Content);
         }
 
         [Fact]
-        public async void ExecuteAsync_WhenChunksAreFound_ReturnsGeneratedAnswer()
+        public async Task ExecuteAsync_WhenChunksAreFound_ReturnsGeneratedAnswer()
         {
             // Arrange
             var query = new SearchQuery("RAG");
@@ -51,10 +52,10 @@ namespace KnowledgeAssistant.Console.Tests.UseCases
             var useCase = new GenerateAnswerUseCase(retriever, generator);
 
             //Act
-            var answer = await useCase.ExecuteAsync(query, knowledgeBase);
+            var answer = await useCase.ExecuteAsync(query, knowledgeBase, default);
 
             // Assert
-            Assert.Equal("RAG signifie Retrieval Augmented Generation", answer);
+            Assert.Equal("RAG signifie Retrieval Augmented Generation", answer.Content);
         }
     }
 }
