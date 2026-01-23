@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using KnowledgeAssistant.Console.Application.Abstractions;
 using KnowledgeAssistant.Console.Domain.Models;
 using KnowledgeAssistant.Console.Domain.ValueObjects;
