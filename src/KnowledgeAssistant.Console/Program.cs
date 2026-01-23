@@ -31,8 +31,8 @@ var knowledgeBase = new List<KnowledgeChunk>
         "Ce texte ne contient aucune information pertinente")
 };
 
-//var query = new SearchQuery("Quel temps fait il ?");
-var query = new SearchQuery("Que sihnifie RAG ?");
+var query = new SearchQuery("Quel temps fait il ?");
+//var query = new SearchQuery("Que signifie RAG ?");
 
 var answer = await useCase.ExecuteAsync(query, knowledgeBase);
 
