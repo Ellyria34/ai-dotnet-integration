@@ -14,13 +14,13 @@ namespace KnowledgeAssistant.Console.Tests.Generation
             var promptBuilder = new FakePromptBuilder();
             var generator = new LLMAnswerGenerator(promptBuilder);
 
-            var query = new SearchQuery("que signifie RAG");
+            var query = new SearchQuery("Que signifie RAG ?");
             var context = new RetrievedContext(new[]
             {
                 new KnowledgeChunk(
                     Guid.NewGuid(),
                     Guid.NewGuid(),
-                    "Some content")
+                    "SIMULATED LLM ANSWER")
             });
 
             // Act
@@ -28,8 +28,12 @@ namespace KnowledgeAssistant.Console.Tests.Generation
 
             // Assert
             Assert.NotNull(answer);
-            Assert.Contains("SIMULATED LLM ANSWER", answer.Content);
-            Assert.Contains("FAKE PROMPT", answer.Content);
+            Assert.Equal(
+                $"[LLM ANSWER (with RAG included)]\n" +
+                $"Request : {query}\n" + 
+                $"Response : SIMULATED LLM ANSWER", 
+                answer.Content
+            );
         }
     }
 }

@@ -12,7 +12,7 @@ var apiKey = Environment.GetEnvironmentVariable("OPENAI_API_KEY")
     ?? throw new InvalidOperationException("OPENAI_API_KEY not set");
     
 // var generator = new FakeAnswerGenerator();
-var answerGenerator = new LLMAnswerGenerator(promptBuilder);
+var answerGenerator = new OpenAiAnswerGenerator(promptBuilder, apiKey);
 
 // var useCase = new GenerateAnswerUseCase(retriever, generator);
 var useCase = new GenerateAnswerUseCase(retriever, answerGenerator);
@@ -31,7 +31,8 @@ var knowledgeBase = new List<KnowledgeChunk>
         "Ce texte ne contient aucune information pertinente")
 };
 
-var query = new SearchQuery("RAG");
+//var query = new SearchQuery("Quel temps fait il ?");
+var query = new SearchQuery("Que sihnifie RAG ?");
 
 var answer = await useCase.ExecuteAsync(query, knowledgeBase);
 

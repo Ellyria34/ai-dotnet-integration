@@ -8,6 +8,6 @@ namespace KnowledgeAssistant.Console.Tests.Generation
     internal sealed class FakePromptBuilder : IPromptBuilder
     {
         public Prompt Build(SearchQuery query, RetrievedContext context)
-            => new Prompt("FAKE PROMPT");
+            => new Prompt("SIMULATED LLM ANSWER");
     }
 }

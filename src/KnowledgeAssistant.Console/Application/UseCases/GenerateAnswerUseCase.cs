@@ -37,14 +37,22 @@ namespace KnowledgeAssistant.Console.Application.UseCases
 
             // Guard clause (business decision)
             if (!retrievedChunks.Any())
-                return new GeneratedAnswer("No relevant information found in the knowledge base.");
+                return new GeneratedAnswer(
+                    $"[LLM ANSWER (with RAG included)]\n" +
+                    $"Request : {query}\n" + 
+                    "We Cant'n display response because no relevant information found in the knowledge base."
+                );
 
             // 2. Build the domain context
             var context = new RetrievedContext(retrievedChunks);
 
             // 3. Generate answer from context
             var answer = await _generator.GenerateAsync(query, context);
-            return new GeneratedAnswer(answer.Content);
+            return new GeneratedAnswer(
+                $"[LLM ANSWER (with RAG included)]\n" +
+                $"Request : {query}\n" + 
+                $"Response : {answer.Content}"
+            );
         }
     }
 }

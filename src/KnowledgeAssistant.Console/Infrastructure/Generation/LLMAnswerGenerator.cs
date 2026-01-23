@@ -3,40 +3,32 @@ using KnowledgeAssistant.Console.Application.Models;
 using KnowledgeAssistant.Console.Domain.Models;
 using KnowledgeAssistant.Console.Domain.ValueObjects;
 
-namespace KnowledgeAssistant.Console.Infrastructure.Generation
+public sealed class LLMAnswerGenerator : IAnswerGenerator
 {
-    public sealed class LLMAnswerGenerator : IAnswerGenerator
+    private readonly IPromptBuilder _promptBuilder;
+
+    public LLMAnswerGenerator(IPromptBuilder promptBuilder)
     {
-        private readonly IPromptBuilder _promptBuilder;
+        _promptBuilder = promptBuilder;
+    }
 
-        public LLMAnswerGenerator(IPromptBuilder promptBuilder)
-        {
-            _promptBuilder = promptBuilder 
-                ?? throw new ArgumentNullException(nameof(promptBuilder));
-        }
+    public Task<GeneratedAnswer> GenerateAsync(
+        SearchQuery query,
+        RetrievedContext context,
+        CancellationToken cancellationToken = default)
+    {
+        Prompt prompt = _promptBuilder.Build(query, context);
 
-        public Task<GeneratedAnswer> GenerateAsync(
-            SearchQuery query,
-            RetrievedContext context,
-            CancellationToken cancellationToken = default)
-            {
-                // 1. Build prompt
-                Prompt prompt = _promptBuilder.Build(query, context);
+        string llmRawResponse = SimulateLlmResponse(query, prompt);
 
-                // 2. Simulate LLM call (learning purpose)
-                string llmRawResponse = SimulateLlmResponse(prompt);
+        return Task.FromResult(new GeneratedAnswer(llmRawResponse));
+    }
 
-                // 3. Parse & wrap result
-                return Task.FromResult(new GeneratedAnswer(llmRawResponse));
-            }
-
-        private static string SimulateLlmResponse(Prompt prompt)
-        {
-            // Simulation volontairement simple
-            return
-                "[LLM ANSWER (with RAG included)]\n" +
-                "Based on the provided context, here is the answer:\n\n" +
-                prompt.Content;
-        }
+    private static string SimulateLlmResponse(SearchQuery query, Prompt prompt)
+    {
+        return
+            $"[LLM ANSWER (with RAG included)]\n" +
+            $"Request : {query}\n" +
+            $"Response : {prompt.Content}";
     }
 }

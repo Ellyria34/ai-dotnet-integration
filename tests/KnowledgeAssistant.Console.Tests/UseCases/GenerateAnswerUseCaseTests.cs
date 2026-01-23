@@ -38,7 +38,12 @@ namespace KnowledgeAssistant.Console.Tests.UseCases
             var answer = await useCase.ExecuteAsync(query, knowledgeBase, default);
 
             // Assert
-            Assert.Equal("No relevant information found in the knowledge base.", answer.Content);
+            Assert.Equal(
+                $"[LLM ANSWER (with RAG included)]\n" +
+                $"Request : {query}\n" + 
+                "We Cant'n display response because no relevant information found in the knowledge base.", 
+                answer.Content
+            );
         }
 
         [Fact]
@@ -55,7 +60,12 @@ namespace KnowledgeAssistant.Console.Tests.UseCases
             var answer = await useCase.ExecuteAsync(query, knowledgeBase, default);
 
             // Assert
-            Assert.Equal("RAG signifie Retrieval Augmented Generation", answer.Content);
+            Assert.Equal(
+                $"[LLM ANSWER (with RAG included)]\n" +
+                $"Request : {query}\n" + 
+                $"Response : RAG signifie Retrieval Augmented Generation", 
+                answer.Content
+            );
         }
     }
 }
