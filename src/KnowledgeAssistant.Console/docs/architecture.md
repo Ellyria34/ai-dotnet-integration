@@ -4,7 +4,7 @@
 
 Le dépôt IA-DOTNET-INTEGRATION est un monorepo pédagogique et expérimental, destiné à regrouper plusieurs projets illustrant différentes approches d’intégration de l’IA dans des applications .NET.
 Dans ce contexte, KnowledgeAssistant.Console est un projet autonome et dispose de sa documentation locale.
-C'est pour celà que les choix architecturaux décrits dans ce document sont strictement limités au périmètre du projet KnowledgeAssistant.Console.
+C'est pour cela que les choix architecturaux décrits dans ce document sont strictement limités au périmètre du projet KnowledgeAssistant.Console.
 
 ## 2. Principes architecturaux
 
@@ -69,12 +69,12 @@ KnowledgeAssistant.Console
 
 Cette organisation est logique, non physique au sens multi-projets, mais elle permet une future extraction sans renommage.
 
-## 5.Testing
+## 5. Testing
 
 Tests for this project are located in: ../../tests/KnowledgeAssistant.Console.Tests
 This separation is intentional and aligns with the monorepo structure of **IA-DOTNET-INTEGRATION**.
 
-### Testing principles
+### Principes de test
 
 - Core domain logic is fully testable without any AI dependency
 - Retrieval, chunking, and scoring logic are covered by deterministic tests
@@ -123,6 +123,7 @@ Responsabilités :
 - Implémentations concrètes des abstractions
 - Accès aux fichiers
 - Algorithmes de retrieval
+- Construction des prompts LLM à partir du contexte métier
 - Intégration LLM
 
 Contraintes :
@@ -130,6 +131,9 @@ Contraintes :
 - Aucune logique métier décisionnelle
 
 ## 7. Flux applicatif (pipeline RAG)
+
+La décision d’appeler ou non le LLM est prise au niveau du cas d’usage,
+avant toute génération, afin d’éviter toute hallucination.
 
 Flux conceptuel :
 
