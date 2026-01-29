@@ -32,33 +32,39 @@ The repository evolves progressively, reflecting each step of the learning proce
 
 ## Scope and learning boundaries
 
-### The **AssistantIT.Console** project has a deliberately limited scope.
+Each project in this repository is intentionally scoped and considered complete
+once its learning objectives are reached.
 
-Its purpose is **not** to evolve into a full-featured AI assistant, but to serve as a focused learning exercise on:
-
-- OpenAI function calling
-- Clean AI integration in a .NET application
-- Architectural boundaries between AI and business logic
-- Testing strategies for AI-assisted systems
-
-Once these objectives are met, the project is intentionally considered **complete**.
-
-### Further experimentation (RAG, agents, memory, advanced orchestration) is explored through **separate projects**, each designed to address a specific level of complexity.
+Rather than building a single evolving AI system, this repository is organized
+as a set of **independent learning projects**, each focusing on a specific AI
+integration pattern.
 
 This approach ensures that:
 - each project remains conceptually clear,
 - learning goals are explicit,
 - and architectural decisions remain easy to explain and defend.
 
+## Projects overview
 
-### AssistantIT.Console
+### AssistantIT.Console — Controlled LLM integration (Function Calling)
 
-The main implemented application is a **console-based internal IT assistant**, intentionally built without AI in its first version.
+The AssistantIT.Console project has a deliberately limited scope.
+Its purpose is not to evolve into a full-featured AI assistant, but to serve
+as a focused learning exercise on:
+- OpenAI Function Calling
+- Clean AI integration in a .NET application
+- Architectural boundaries between AI and business logic
+- Testing strategies for AI-assisted systems
 
-Its purpose is to establish a clean, testable, and explainable application flow **before introducing any AI component**.
+Once these objectives are met, the project is intentionally considered complete.
+
+The main implemented application is a console-based internal IT assistant,
+intentionally built without AI in its first version.
+
+Its purpose is to establish a clean, testable, and explainable application flow
+before introducing any AI component.
 
 Key characteristics:
-
 - Clear separation of responsibilities:
   - Console I/O
   - Application orchestration
@@ -73,7 +79,36 @@ Key characteristics:
   - Orchestration and routing decisions
 - No mock frameworks: fakes are implemented explicitly to keep behavior understandable
 
-This approach ensures that AI will later be introduced as an **evolution**, not as a foundational dependency.
+This approach ensures that AI is introduced as an evolution, not as a foundational dependency.
+
+### KnowledgeAssistant.Console — Retrieval-Augmented Generation (RAG)
+
+KnowledgeAssistant.Console is a separate console-based .NET project focused on
+a clean and controlled implementation of a Retrieval-Augmented Generation (RAG) pipeline.
+
+Its goal is to understand and control each step of RAG integration, with an emphasis on
+architectural clarity, testability, and explicit application-level decisions.
+
+Key characteristics:
+- Local knowledge sources (text / markdown files)
+- Explicit document ingestion and chunking
+- Deterministic retrieval logic
+- Grounded answer generation using a LLM
+- Application-level decision on whether the LLM is invoked
+- Explicit prevention of hallucinations when no relevant context is found
+
+The domain layer remains fully independent from AI concerns.
+Prompt construction and LLM integration are treated as infrastructure details.
+
+This project intentionally excludes:
+- autonomous agents,
+- function calling,
+- external vector databases,
+- conversational memory,
+- advanced orchestration.
+
+The project is considered complete for its intended learning scope and may evolve
+later for controlled experimentation.
 
 ---
 
@@ -85,6 +120,7 @@ ai-dotnet-integration/
 │  └─ pdfs/
 ├─ src/           # Application source code (.NET)
 │  └─ AssistantIT.Console/
+│  └─ KnowledgeAssistant.Console/
 ├─ tests/         # Unit tests (xUnit, fakes, orchestration tests)
 ├─ experiments/   # Isolated experiments and proofs of concept
 └─ README.md
